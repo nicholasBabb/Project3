@@ -1,3 +1,7 @@
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DateTimeOne extends MesoDateTimeOneAbstract
 {
@@ -16,11 +20,14 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 	   return (int) (timeInMilliseconds / MILLI_CONVERSION_FACTOR);
 	   
     }
-
+    // Print the present date/time as:"Current Date/Time: 10/08/2019 03:03 PM"
+    // Here is a clue, month/day/year hour:minute am/pm 
 	@Override
 	public void dateTimeNow() {
-		
-		
+		Calendar calendar = new GregorianCalendar();
+		SimpleDateFormat format = new SimpleDateFormat("MM/DD/YYYY hh:mm aa");
+		System.out.println("Current Date/Time: " + format.format(calendar.getTime()));
+		return;
 	}
 
 	@Override
