@@ -1,4 +1,5 @@
 
-public class DateTimeTwo {
-
+public class DateTimeTwo extends MesoDateTimeOneAbstract
+{
+	
 }
