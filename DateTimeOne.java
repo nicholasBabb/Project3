@@ -1,13 +1,22 @@
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SimpleTimeZone;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 public class DateTimeOne extends MesoDateTimeOneAbstract
 {
 	private static final long MILLI_CONVERSION_FACTOR = 1000;
 	private long timeInMilliseconds;
+	private HashMap<String, String> timeZonesAndTime = new HashMap<String,String>();
 	
 	public DateTimeOne() {
 		timeInMilliseconds = System.currentTimeMillis();	
@@ -81,35 +90,68 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 
 	@Override
 	public void dateTimeDifferentZone() {
-		// Hashmap to store the outputs
-		HashMap<String, String> timeZonesAndTime = new HashMap<String,String>();
 		
 		// Print Current Date and Time in GMT, Greenwich Mean Time, and store it in timeZonesAndTime
-		TimeZone tz = TimeZone.getTimeZone("Greenwich Mean Time");
-		Calendar calendarGMT = new GregorianCalendar(tz);
-		SimpleDateFormat format = new SimpleDateFormat("MM/DD/YYYY kk:mm");
-		String timeZoneGMT = format.format(calendarGMT.getTime());
-		System.out.println("GMT: " + timeZoneGMT);
-		timeZonesAndTime.put("GMT", timeZoneGMT);
+		ZoneId tz = ZoneId.of("Greenwich");
+		DateTimeFormatter newFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy kk:mm");
+		ZonedDateTime gmt = ZonedDateTime.now(tz);
+		gmt.format(newFormat);
+		System.out.println("GMT: " + gmt.toString());
+		timeZonesAndTime.put("GMT", gmt.toString());
 		
 		// Print Current Date and Time in BST, Bangladesh Standard Time, and store it in timeZonesAndTime
-		tz = TimeZone.getTimeZone("Bangladesh Standard Time");
-		Calendar calendarBST = new GregorianCalendar(tz);
-		String timeZoneBST = format.format(calendarBST.getTime());
-		System.out.println("BST: " + timeZoneBST);
-		timeZonesAndTime.put("BST", timeZoneBST);
+		tz = ZoneId.of("Indian/Chagos");
+		ZonedDateTime bst = ZonedDateTime.now(tz);
+		bst.format(newFormat);
+		System.out.println("BST: " + bst.toString());
+		timeZonesAndTime.put("BST", bst.toString());
 		
 		// Print Current Date and Time in CST, Central Standard Time, and store it in timeZonesAndTime
-		tz = TimeZone.getTimeZone("Central Standard Time");
-		Calendar calendarCST = new GregorianCalendar(tz);
-		String timeZoneCST = format.format(calendarCST.getTime());
-		System.out.println("BST: " + timeZoneCST);
-		timeZonesAndTime.put("CST", timeZoneBST);
+		tz = ZoneId.of("US/Mountain");
+		ZonedDateTime cst = ZonedDateTime.now(tz);
+		cst.format(newFormat);
+		System.out.println("CST: " + cst.toString());
+		timeZonesAndTime.put("CST", cst.toString());
 	}
-
+	// Put 2 more timeZone objects (AST, ZST) into HashMap, sort the HashMap alphabetically, output it in 3 different format styles.
+	// Formatting styles, using the imaginary time zone AST
+	// AST and ZST values are hardcoded. Rest are legitimate time zones
+	// Format 1: AST 10/01/2020 19:59
+	// Format 2: 10/01/2020 19:59
+	// Format 3: 2020-10-01T19:59
+	
 	@Override
-	void timeZoneHashMap() {
-		// TODO Auto-generated method stub
+	public void timeZoneHashMap() {
+		// Creation of AST, ZST objects in HashMap, given first output format.
+		timeZonesAndTime.put("ZST", "ZST 11/05/2018 19:59");
+		timeZonesAndTime.put("AST", "AST 11/05/2018 19:59");
+		
+		// Making a new HashMap to hold the sorted version.
+		HashMap<String,String> sortedTimeZones = new HashMap<String,String>();
+		
+		// Creating a TreeMap to sort the HashMap
+		TreeMap<String, String> sortingHashMap = new TreeMap<String, String>();
+		sortingHashMap.putAll(timeZonesAndTime);
+		
+		// Printing the Tree Map with Format 1, and storing its values in sortedTimeZones:
+		System.out.println("Print Style 1:");
+		for (Entry<String, String> entry: sortingHashMap.entrySet()) {
+			System.out.println(entry.getKey() + " " + entry.getValue());
+			sortedTimeZones.put(entry.getKey(), entry.getValue());
+			
+		}
+		// Array storing key values to help in producing substrings
+		ArrayList<String> keySet = new ArrayList<String>(sortedTimeZones.keySet());
+		int startOfFormatTwo = 4;
+		int endOfFormatTwo = 20;
+		// Creating substrings out of sortingHashMap's values to print;
+		for (int i = 0; i < keySet.size(); i++) {
+			String valueSubstring = (sortedTimeZones.get(keySet.get(i))).substring(startOfFormatTwo, endOfFormatTwo);
+			System.out.println(valueSubstring);
+		}
+		// SimpleDateFormat object to create the third value
+		SimpleDateFormat formatThree = new SimpleDateFormat("YYYY-MM-DD'T'kk:mm");
+		
 		
 	}
 }
