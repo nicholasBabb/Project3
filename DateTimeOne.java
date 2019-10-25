@@ -123,19 +123,23 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 	
 	@Override
 	public void timeZoneHashMap() {
+		ZoneId tz = ZoneId.of("Greenwich");
 		// Creation of AST, ZST objects in HashMap, given first output format.
 		DateTimeFormatter formatOne = DateTimeFormatter.ofPattern("MM/dd/yyyy kk:mm");
-		ZonedDateTime ast = ZonedDateTime.of(2020, 10, 01, 19, 59, 0, 0, null);
+		ZonedDateTime ast = ZonedDateTime.of(2020, 10, 01, 19, 59, 0, 0, tz);
 		String formattedAst = ast.format(formatOne);
-		timeZonesAndTime.put("AST", formattedAst)
+		timeZonesAndTime.put("AST", formattedAst);
+		
+		// 11/05/2018 19:59
+		ZonedDateTime zst = ZonedDateTime.of(2018, 11, 05, 19, 59, 0, 0, tz);
+		String formattedZst = zst.format(formatOne);
+		timeZonesAndTime.put("ZST", formattedZst);
 		
 		// Making a new HashMap to hold the sorted version.
 		HashMap<String,String> sortedTimeZones = new HashMap<String,String>();
-		
 		// Creating a TreeMap to sort the HashMap
 		TreeMap<String, String> sortingHashMap = new TreeMap<String, String>();
 		sortingHashMap.putAll(timeZonesAndTime);
-		
 		// Printing the Tree Map with Format 1, and storing its values in sortedTimeZones:
 		System.out.println("Print Style 1:");
 		for (Entry<String, String> entry: sortingHashMap.entrySet()) {
@@ -153,8 +157,12 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 			System.out.println(valueSubstring);
 		}
 		// SimpleDateFormat object to create the third value
-		SimpleDateFormat formatThree = new SimpleDateFormat("YYYY-MM-DD'T'kk:mm");
-		
-		
+		DateTimeFormatter formatThree = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm");
+		// Parsing ZonedDateTime objects from sortedTimeZones.
+		for (int i = 0; i < keySet.size(); i++) {
+			CharSequence usedTerm = sortedTimeZones.get(keySet.get(i));
+			ZonedDateTime timeZone = ZonedDateTime.parse(usedTerm, formatThree);
+			System.out.println(timeZone.toString());
+		}
 	}
 }
