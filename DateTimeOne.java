@@ -61,24 +61,25 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 	@Override
 	public void dateTimeOfOtherCity() {
 		// Print Current Time in current time zone in military time
-		Calendar calendarDefault = new GregorianCalendar();
-		SimpleDateFormat format = new SimpleDateFormat("kk:mm");
-		System.out.println("Time on Server: " + format.format(calendarDefault.getTime()));
-		
+		System.out.println(ZonedDateTime.now());
 		// Print Current Time in GMT, Greenwich Mean Time
-		TimeZone tz = TimeZone.getTimeZone("Greenwich Mean Time");
-		Calendar calendarGMT = new GregorianCalendar(tz);
-		System.out.println("GMT: " + format.format(calendarGMT.getTime()));
+		ZoneId tz = ZoneId.of("Greenwich");
+		DateTimeFormatter newFormat = DateTimeFormatter.ofPattern("kk:mm");
+		ZonedDateTime gmt = ZonedDateTime.now(tz);
+		gmt.format(newFormat);
+		System.out.println("GMT: " + gmt.toString());
 		
 		//Print Current Time in BST, Bangladesh Standard Time
-		tz = TimeZone.getTimeZone("Bangladesh Standard Time");
-		Calendar calendarBST = new GregorianCalendar(tz);
-		System.out.println("BST (90E): " + format.format(calendarBST.getTime()));
+		tz = ZoneId.of("Indian/Chagos");
+		ZonedDateTime bst = ZonedDateTime.now(tz);
+		bst.format(newFormat);
+		System.out.println("BST: " + bst.toString());
 		
 		//Print Current Time in CST, Central Standard Time
-		tz = TimeZone.getTimeZone("Central Standard Time");
-		Calendar calendarCST = new GregorianCalendar(tz);
-		System.out.println("CST (90W): " + format.format(calendarCST.getTime()));
+		tz = ZoneId.of("US/Mountain");
+		ZonedDateTime cst = ZonedDateTime.now(tz);
+		cst.format(newFormat);
+		System.out.println("CST: " + cst.toString());
 	}
 	
 	// Sample Output:
