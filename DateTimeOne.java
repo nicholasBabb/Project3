@@ -66,20 +66,20 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 		ZoneId tz = ZoneId.of("Greenwich");
 		DateTimeFormatter newFormat = DateTimeFormatter.ofPattern("kk:mm");
 		ZonedDateTime gmt = ZonedDateTime.now(tz);
-		gmt.format(newFormat);
-		System.out.println("GMT: " + gmt.toString());
+		String formattedGmt = gmt.format(newFormat);
+		System.out.println("GMT: " + formattedGmt);
 		
 		//Print Current Time in BST, Bangladesh Standard Time
 		tz = ZoneId.of("Indian/Chagos");
 		ZonedDateTime bst = ZonedDateTime.now(tz);
-		bst.format(newFormat);
-		System.out.println("BST: " + bst.toString());
+		String formattedBst = bst.format(newFormat);
+		System.out.println("BST: " + formattedBst);
 		
 		//Print Current Time in CST, Central Standard Time
 		tz = ZoneId.of("US/Mountain");
 		ZonedDateTime cst = ZonedDateTime.now(tz);
-		cst.format(newFormat);
-		System.out.println("CST: " + cst.toString());
+		String formattedCst = cst.format(newFormat);
+		System.out.println("CST: " + formattedCst);
 	}
 	
 	// Sample Output:
@@ -96,27 +96,27 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 		ZoneId tz = ZoneId.of("Greenwich");
 		DateTimeFormatter newFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy kk:mm");
 		ZonedDateTime gmt = ZonedDateTime.now(tz);
-		gmt.format(newFormat);
-		System.out.println("GMT: " + gmt.toString());
-		timeZonesAndTime.put("GMT", gmt.toString());
+		String formattedGmt = gmt.format(newFormat);
+		System.out.println("GMT: " + formattedGmt);
+		timeZonesAndTime.put("GMT", formattedGmt);
 		
 		// Print Current Date and Time in BST, Bangladesh Standard Time, and store it in timeZonesAndTime
 		tz = ZoneId.of("Indian/Chagos");
 		ZonedDateTime bst = ZonedDateTime.now(tz);
-		bst.format(newFormat);
-		System.out.println("BST: " + bst.toString());
-		timeZonesAndTime.put("BST", bst.toString());
+		String formattedBst = bst.format(newFormat);
+		System.out.println("BST: " + formattedBst);
+		timeZonesAndTime.put("BST", formattedBst);
 		
 		// Print Current Date and Time in CST, Central Standard Time, and store it in timeZonesAndTime
 		tz = ZoneId.of("US/Mountain");
 		ZonedDateTime cst = ZonedDateTime.now(tz);
-		cst.format(newFormat);
-		System.out.println("CST: " + cst.toString());
-		timeZonesAndTime.put("CST", cst.toString());
+		String formattedCst = cst.format(newFormat);
+		System.out.println("CST: " + formattedCst);
+		timeZonesAndTime.put("CST", formattedCst);
 	}
 	// Put 2 more timeZone objects (AST, ZST) into HashMap, sort the HashMap alphabetically, output it in 3 different format styles.
 	// Formatting styles, using the imaginary time zone AST
-	// AST and ZST values are hardcoded. Rest are legitimate time zones
+	// AST and ZST are imaginary.
 	// Format 1: AST 10/01/2020 19:59
 	// Format 2: 10/01/2020 19:59
 	// Format 3: 2020-10-01T19:59
@@ -124,8 +124,10 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 	@Override
 	public void timeZoneHashMap() {
 		// Creation of AST, ZST objects in HashMap, given first output format.
-		timeZonesAndTime.put("ZST", "ZST 11/05/2018 19:59");
-		timeZonesAndTime.put("AST", "AST 11/05/2018 19:59");
+		DateTimeFormatter formatOne = DateTimeFormatter.ofPattern("MM/dd/yyyy kk:mm");
+		ZonedDateTime ast = ZonedDateTime.of(2020, 10, 01, 19, 59, 0, 0, null);
+		String formattedAst = ast.format(formatOne);
+		timeZonesAndTime.put("AST", formattedAst)
 		
 		// Making a new HashMap to hold the sorted version.
 		HashMap<String,String> sortedTimeZones = new HashMap<String,String>();
