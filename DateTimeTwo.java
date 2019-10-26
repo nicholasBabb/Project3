@@ -3,12 +3,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DateTimeTwo extends MesoDateTimeOneAbstract
 {
-	
+	private HashMap<LocalDate, Integer> datesHashMap = new HashMap<LocalDate, Integer>();
 	public void daysOfCurrentMonth() {
 		YearMonth thisMonth = YearMonth.now();
 		LocalDate tenthDayOfMonth = thisMonth.atDay(10);
@@ -54,7 +57,46 @@ public class DateTimeTwo extends MesoDateTimeOneAbstract
 		}
 		readIn.close();
 		
-		// Determining if the year is a leap year or not.
+		// Store dates as LocalDates in datesHashMap, and in an ArrayList for use later in the method
+		LocalDate parsedDate;
+		ArrayList<LocalDate> localDateList = new ArrayList<LocalDate>();
+		DateTimeFormatter datesFormat = DateTimeFormatter.ofPattern("MM.dd.yyyy");
+		for (int i = 0; i < dateList.size(); i++) {
+			parsedDate = LocalDate.parse(dateList.get(i), datesFormat);
+			localDateList.add(parsedDate);
+			datesHashMap.put(parsedDate, i + 1);
+			
+		}
+		
+		// Determining if the given year is a leap year, storing it in a string ArrayList
+		int beginOfYear = 6;
+		ArrayList<String> leapList = new ArrayList<String>();
+		for (int i = 0; i < dateList.size(); i++) {
+			String yearString = dateList.get(i).substring(beginOfYear);
+			int year = Integer.parseInt(yearString);
+			if ((year % 4) == 0) {
+				leapList.add(yearString + " is a leap year, and ");
+			}
+			else {
+				leapList.add(yearString + " is not a leap year, and ");
+			}
+		}
+		
+		// Determining the difference between the given date and the current date
+		LocalDate today = LocalDate.now();
+		int yearDif;
+		int monthDif;
+		int dayDif;
+		Period timeDif;
+		for (int i = 0; i < localDateList.size(); i++) {
+			timeDif = Period.between(localDateList.get(i), today);
+			yearDif = timeDif.getYears();
+			monthDif = timeDif.getMonths();
+			dayDif = timeDif.getDays();
+			String secondOutput = "Difference: " + yearDif + " years, " + monthDif +
+									" months, and " + dayDif + " days.";
+			System.out.println(leapList.get(i) + secondOutput);
+		}
 	}
 
 	public void dateHashMap() {
