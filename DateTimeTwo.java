@@ -7,7 +7,9 @@ import java.time.Period;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class DateTimeTwo extends MesoDateTimeOneAbstract
@@ -112,7 +114,17 @@ public class DateTimeTwo extends MesoDateTimeOneAbstract
 	}
 
 	public void dateHashMapSorted() {
-		// TODO Auto-generated method stub
-		
+		// Sorting the Hashmap in an ascending order
+		List<LocalDate> sortedKeyList = new ArrayList<LocalDate>(datesHashMap.size());
+		sortedKeyList.addAll(datesHashMap.keySet());
+		Collections.sort(sortedKeyList);
+		// Printing out the HashMap in the same format and order as they've been sorted
+		DateTimeFormatter datesFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		sortedKeyList.toArray();
+		String stringKey;
+		for (int i = 0; i < sortedKeyList.size(); i++) {
+			stringKey = sortedKeyList.get(i).format(datesFormat);
+			System.out.println(stringKey + ":" + datesHashMap.get(sortedKeyList.get(i)));
+		}
 	}
 }
